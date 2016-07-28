@@ -3,7 +3,7 @@ SAMPLE_REPO	:=  ./example/repositories/sample-repo
 
 all: image
 
-sample_repository: $(SAMPLE_REPO)/example-file.txt
+$(SAMPLE_REPO)/example-file.txt: 
 	tar -xzf ./example/repo.tar.gz -C ./example/repositories
 
 
@@ -12,7 +12,7 @@ sample_repository: $(SAMPLE_REPO)/example-file.txt
 image:
 	docker build -t $(IMAGE_NAME) .
 
-example: sample_repository
+example: $(SAMPLE_REPO)/example-file.txt
 	cd ./example && docker-compose up
 
 

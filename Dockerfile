@@ -1,20 +1,22 @@
-FROM debian:jessie
-MAINTAINER anyakichi@sopht.jp
+# Thanks to MAINTAINER anyakichi@sopht.jp for the initial
+# work on the image
 
-ENV GIT_GROUP="-www-data"
+FROM debian:jessie
+MAINTAINER Ciro S. Costa <ciro.costa@liferay.com>
 
 RUN set -x && \
-  apt-get update                                && \
-  apt-get install -y fcgiwrap git gitweb nginx  && \
-  rm -rf /var/lib/apt/lists/*                   && \
-  echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
+  apt-get update                                &&  \
+  apt-get install -y fcgiwrap git gitweb nginx  &&  \
+
+  rm -rf /var/lib/apt/lists/*                   &&  \
+  rm -f /etc/nginx/sites-enabled/default        &&  \
+  echo "\ndaemon off;" >> /etc/nginx/nginx.conf 
+
+RUN set -x && \
   chown -R www-data:www-data /var/lib/nginx
 
 ADD ./entrypoint.sh /usr/local/bin/entrypoint
 ADD nginx /etc/nginx/
-
-RUN mkdir /etc/gitweb &&  \
-    rm -f /etc/nginx/sites-enabled/default
 
 EXPOSE 80 443
 ENTRYPOINT [ "entrypoint" ]

@@ -8,7 +8,7 @@
 docker run \
   -d  \                               # deamonize
   -v `pwd`/repositories:/var/git \    # mount the volume
-  -p "8080:80"                        # expose the port 
+  -p "8080:80" \                      # expose the port 
   cirocosta/gitserver-http
 ```
 

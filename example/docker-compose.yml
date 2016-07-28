@@ -1,0 +1,8 @@
+version: '2'
+services:
+  gitserver:
+    image: "cirocosta/gitserver-http"
+    volumes:
+      - "./repositories:/var/lib/git"
+    ports:
+      - "80:80"

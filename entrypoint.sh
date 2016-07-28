@@ -8,12 +8,12 @@ set -ex
   exec "$@"
 }
 
-cp /etc/nginx/sites-available/git-http /etc/nginx/sites-enabled/ ;
 mkdir -p /etc/gitweb
-cp /etc/nginx/git-http/gitweb.conf /etc/gitweb/ ; 
+cp /etc/nginx/sites-available/git-http /etc/nginx/sites-enabled/
+cp /etc/gitweb.conf /etc/gitweb/
 
 echo "FCGI_GROUP=www-data" > /etc/default/fcgiwrap 
 service fcgiwrap start
 service nginx start
 
-tail -f /var/log/nginx/*.log
+tail -f /var/log/nginx/error.log /var/log/nginx/access.log

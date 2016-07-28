@@ -6,3 +6,4 @@ services:
       - "./repositories:/var/lib/git"
     ports:
       - "80:80"
+      - "443:443"

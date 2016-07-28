@@ -10,9 +10,7 @@ RUN set -x && \
 
   rm -rf /var/lib/apt/lists/*                   &&  \
   rm -f /etc/nginx/sites-enabled/default        &&  \
-  echo "\ndaemon off;" >> /etc/nginx/nginx.conf 
-
-RUN set -x && \
+  echo "\ndaemon off;" >> /etc/nginx/nginx.conf &&  \
   chown -R www-data:www-data /var/lib/nginx
 
 ADD ./entrypoint.sh /usr/local/bin/entrypoint

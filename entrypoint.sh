@@ -53,33 +53,18 @@ initialize_initial_repositories () {
   cd $GIT_PROJECT_ROOT
   for dir in ./*; do 
     echo "Initializing repository $dir"
-
-    cd $dir
-    perform_first_commit
-    transform_to_bare_repo
+    init_and_commit $dir
+    git clone --bare $dir ${dir}.git
   done
 }
 
 
-perform_first_commit () {
+init_and_commit () {
+  cd $dir
   git init
   git add --all .
   git commit -m "first commit"
-}
-
-
-transform_to_bare_repo () {
-  local repo_name=$(basename $(pwd))
-  pushd . >/dev/null
-
-	mv .git .. && rm -fr *
-	mv ../.git .
-	mv .git/* .
-	rmdir .git
-	git config --bool core.bare true
-  mv $repo_name ${repo_name}.git
-
-  popd >/dev/null
+  cd ..
 }
 
 

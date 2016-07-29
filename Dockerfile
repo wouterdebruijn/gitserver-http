@@ -11,7 +11,8 @@ RUN set -x && \
   rm -rf /var/lib/apt/lists/*                   &&  \
   rm -f /etc/nginx/sites-enabled/default        &&  \
   echo "\ndaemon off;" >> /etc/nginx/nginx.conf &&  \
-  chown -R www-data:www-data /var/lib/nginx
+  chown -R www-data:www-data /var/lib/nginx     &&  \
+  git config --system http.receivepack true
 
 ADD ./entrypoint.sh /usr/local/bin/entrypoint
 ADD nginx /etc/nginx/

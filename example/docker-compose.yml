@@ -2,8 +2,9 @@ version: '2'
 services:
   gitserver:
     image: "cirocosta/gitserver-http"
+    command: [ "-start", "-init" ] 
     volumes:
       - "./repositories:/var/lib/git"
     ports:
-      - "80:80"
+      - "1337:80"
       - "443:443"

@@ -16,6 +16,8 @@
 set -ex
 
 readonly GIT_PROJECT_ROOT="/var/lib/git"
+readonly GIT_INITIAL_ROOT="/var/lib/initial"
+
 
 main () {
   while [ $# != "0" ]; do
@@ -50,11 +52,12 @@ initialize_services () {
 
 
 initialize_initial_repositories () {
-  cd $GIT_PROJECT_ROOT
+  cd $GIT_INITIAL_ROOT
   for dir in ./*; do 
     echo "Initializing repository $dir"
     init_and_commit $dir
-    git clone --bare $dir ${dir}.git
+    git clone --bare $dir $GIT_PROJECT_ROOT/${dir}.git
+    rm -rf ${dir}/.git
   done
 }
 
@@ -77,10 +80,10 @@ tail_logs () {
 
 # If not passed the default start command, just execute what the
 # user wants.
-
 [ "${1%${1#?}}"x = '-x' ] && {
   exec "$@"
 }
+
 
 main "$@"
 

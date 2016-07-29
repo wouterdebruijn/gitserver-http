@@ -11,9 +11,9 @@ To run a git server without any repositories configured in advance but allowing 
  
   ```sh
   docker run \
-    -d  \                               # deamonize
-    -v `pwd`/repositories:/var/git \    # mount the volume
-    -p "8080:80" \                      # expose the port 
+    -d  \                                 # deamonize
+    -v `pwd`/repositories:/var/lib/git \  # mount the volume
+    -p "8080:80" \                        # expose the port 
     cirocosta/gitserver-http
   ```
 
@@ -40,6 +40,7 @@ Git servers work with bare repositories. This image provides the utility of init
   ```
   .
   └── repositories
+  └── initial
       └── initial
           └── repo1
               └── file.txt
@@ -50,7 +51,7 @@ and then executing
   ```sh
   docker run \
     -d  \                                 # deamonize
-    -v `pwd`/repositories:/var/git \      # mount the volume
+    -v `pwd`/initial:/var/lib/initial \   # mount the initial volume
     -p "8080:80" \                        # expose the port 
     cirocosta/gitserver-http -start -init # start git server and init repositories
   ```

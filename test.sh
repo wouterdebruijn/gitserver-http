@@ -17,7 +17,7 @@ init_docker_container () {
 
 
 assert_can_clone () {
-  git clone http://localhost/initial/repo1.git
+  git clone http://localhost:8082/initial/repo1.git
   [[ -f "repo1/file.txt" ]] || exit 1
 
   echo "OK!"
@@ -41,6 +41,9 @@ wait_for_server () {
 
 
 cleanup () {
+  local exit_code=$?
+
+  echo "Exited with [$exit_code]"
   docker-compose -f ./example/docker-compose.yml stop
   rm -r myrepo
 }

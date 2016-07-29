@@ -28,14 +28,14 @@ install_docker () {
 	apt-get -qqy \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold" \
-    install docker-engine=1.11.2-0~precise
+    install docker-engine=1.12.0-0~precise
 }
 
 
 install_compose () {
 	rm /usr/local/bin/docker-compose
 	curl -L \
-    https://github.com/docker/compose/releases/download/1.8.0-rc2/docker-compose-`uname -s`-`uname -m` > \
+    https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > \
     /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 }

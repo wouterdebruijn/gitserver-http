@@ -6,5 +6,4 @@ services:
     volumes:
       - "./repositories:/var/lib/git"
     ports:
-      - "1337:80"
-      - "443:443"
+      - "8082:80"

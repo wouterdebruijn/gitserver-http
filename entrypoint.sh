@@ -21,8 +21,7 @@ main () {
   while [ $# != "0" ]; do
     case $1 in
       -start)   configure_nginx
-                initialize_services
-                tail_logs &
+                initialize_services &
                 ;;
       
       -init)    initialize_initial_repositories
@@ -30,6 +29,8 @@ main () {
     esac
     shift
   done
+
+  tail_logs
 }
 
 
@@ -44,19 +45,19 @@ initialize_services () {
   echo "FCGI_GROUP=www-data" > /etc/default/fcgiwrap 
   service fcgiwrap start
   service nginx start
+  echo "Started!"
 }
 
 
 initialize_initial_repositories () {
-  find $GIT_PROJECT_ROOT -type d -print0 | (
-    while read -d $'\0' dir; do
-      echo "Initializing repository $dir"
+  cd $GIT_PROJECT_ROOT
+  for dir in ./*; do 
+    echo "Initializing repository $dir"
 
-      cd $dir
-      perform_first_commit
-      transform_to_bare_repo
-    done
-  )
+    cd $dir
+    perform_first_commit
+    transform_to_bare_repo
+  done
 }
 
 
@@ -83,13 +84,16 @@ transform_to_bare_repo () {
 
 
 tail_logs () {
+  echo "'tail'ing logs"
+  sleep 3
   tail -f /var/log/nginx/error.log /var/log/nginx/access.log
 }
 
 
 # If not passed the default start command, just execute what the
 # user wants.
-[ "${1:0:1}" != '-' ] && {
+
+[ "${1%${1#?}}"x = '-x' ] && {
   exec "$@"
 }
 

@@ -26,7 +26,8 @@ main () {
                 initialize_services &
                 ;;
       
-      -init)    initialize_initial_repositories
+      -init)    clean_git_root
+                initialize_initial_repositories
                 ;;
     esac
     shift
@@ -35,6 +36,9 @@ main () {
   tail_logs
 }
 
+clean_git_root () {
+  rm -rf $GIT_PROJECT_ROOT/* 
+}
 
 configure_nginx () {
   mkdir -p /etc/gitweb

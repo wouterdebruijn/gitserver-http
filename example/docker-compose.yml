@@ -4,6 +4,6 @@ services:
     image: "cirocosta/gitserver-http"
     command: [ "-start", "-init" ] 
     volumes:
-      - "./initial:/var/lib/initial"
+      - "./initial:/var/lib/initial:ro"
     ports:
       - "8082:80"

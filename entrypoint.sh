@@ -56,14 +56,17 @@ initialize_initial_repositories () {
   for dir in ./*; do 
     echo "Initializing repository $dir"
     init_and_commit $dir
-    git clone --bare $dir $GIT_PROJECT_ROOT/${dir}.git
-    rm -rf ${dir}/.git
   done
 }
 
 
 init_and_commit () {
-  cd $dir
+  local dir=$1
+  local tmp_dir=`mktemp -d`
+
+  cp -r $dir/* $tmp_dir
+  pushd . >/dev/null
+  cd $tmp_dir
 
   if [[ -d "./.git" ]]; then
     rm -rf ./.git
@@ -72,7 +75,11 @@ init_and_commit () {
   git init
   git add --all .
   git commit -m "first commit"
-  cd ..
+
+  ls $GIT_PROJECT_ROOT
+  git clone --bare $tmp_dir $GIT_PROJECT_ROOT/${dir}.git
+
+  popd >/dev/null
 }
 
 

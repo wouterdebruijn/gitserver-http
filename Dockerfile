@@ -6,7 +6,7 @@ MAINTAINER Ciro S. Costa <ciro.costa@liferay.com>
 
 RUN set -x && \
   apt-get update                                        &&  \
-  apt-get install -y fcgiwrap git gitweb nginx          &&  \
+  apt-get install -y fcgiwrap git gitweb nginx bash     &&  \
 
   rm -rf /var/lib/apt/lists/*                           &&  \
   rm -f /etc/nginx/sites-enabled/default                &&  \

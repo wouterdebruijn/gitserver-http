@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Initializes Nginx and the git cgi scripts
 # through fast cgi wrap.
@@ -64,6 +64,11 @@ initialize_initial_repositories () {
 
 init_and_commit () {
   cd $dir
+
+  if [[ -d "./.git" ]]; then
+    rm -rf ./.git
+  fi
+
   git init
   git add --all .
   git commit -m "first commit"
@@ -75,13 +80,6 @@ tail_logs () {
   echo "'tail'ing logs"
   sleep 3
   tail -f /var/log/nginx/error.log /var/log/nginx/access.log
-}
-
-
-# If not passed the default start command, just execute what the
-# user wants.
-[ "${1%${1#?}}"x = '-x' ] && {
-  exec "$@"
 }
 
 

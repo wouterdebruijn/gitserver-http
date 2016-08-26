@@ -5,7 +5,7 @@
 # ps.:	it's required to be run as root
 
 set -o errexit
-
+set -o xtrace
 
 main () {
   bootstrap_apt
@@ -26,6 +26,7 @@ bootstrap_apt () {
 
 install_docker () {
 	apt-get -qqy \
+    --force-yes \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold" \
     install docker-engine=1.12.0-0~precise

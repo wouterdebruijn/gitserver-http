@@ -4,12 +4,10 @@ MAINTAINER Ciro S. Costa <ciro.costa@liferay.com>
 
 RUN set -x && \
   apk --update upgrade                                  &&  \
-  apk add  \
-    git bash fcgiwrap spawn-fcgi
+  apk add git bash fcgiwrap spawn-fcgi                  &&  \
 
-RUN set -x && \
-  # git config
   git config --system http.receivepack true             &&  \
+  git config --system http.uploadpack true              &&  \
   git config --global user.email "gitserver@git.com"    &&  \
   git config --global user.name "Git Server"
 

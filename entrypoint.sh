@@ -1,34 +1,36 @@
 #!/bin/bash
 
 # Initializes Nginx and the git cgi scripts
-# through fast cgi wrap.
+# for git http-backend through fcgiwrap.
 #
 # Usage:
 #   entrypoint <commands>
 #
 # Commands:
-#   -start    initialize the git server
+#   -start    starts the git server (nginx + fcgi)
 #
-#   -init     turn directories under `/var/lib/git/`
-#             into bare repositories
+#   -init     turns directories under `/var/lib/initial`
+#             into bare repositories at `/var/lib/git`
 # 
 
 set -o errexit
 set -o xtrace
-set -o verbose
+
 
 readonly GIT_PROJECT_ROOT="/var/lib/git"
 readonly GIT_INITIAL_ROOT="/var/lib/initial"
 readonly FCGIPROGRAM=/usr/bin/fcgiwrap
 readonly USERID=nginx
 readonly SOCKUSERID=$USERID
-readonly FCGISOCKET=/var/run/git-http-backend.sock
+readonly FCGISOCKET=/var/run/fcgiwrap.socket
 
 
 main () {
+  mkdir -p $GIT_PROJECT_ROOT
+
   while [ $# != "0" ]; do
     case $1 in
-      -start)   initialize_services &
+      -start)   initialize_services
                 ;;
       
       -init)    clean_git_root
@@ -37,6 +39,7 @@ main () {
     esac
     shift
   done
+
 }
 
 clean_git_root () {
@@ -44,10 +47,10 @@ clean_git_root () {
 }
 
 initialize_services () {
-  echo $FCGISOCKET $FCGIPROGRAM $USERID
-  nginx -g "daemon off;"
-  
-  /usr/bin/spawn-fcgi -n -s $FCGISOCKET -f 10 -u $USERID -U $USERID -g $USERID -- $FCGIPROGRAM 
+  /usr/bin/spawn-fcgi -s $FCGISOCKET -F 10 -u $USERID -U $USERID -g $USERID -- $FCGIPROGRAM 
+  chown -R nginx $GIT_PROJECT_ROOT
+
+  exec nginx -g "daemon off;"
 }
 
 

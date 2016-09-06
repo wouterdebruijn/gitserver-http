@@ -2,7 +2,7 @@ version: '2'
 services:
   gitserver:
     image: "cirocosta/gitserver-http"
-    command: [ "-start", "-init" ] 
+    command: [ "-init", "-start" ] 
     volumes:
       - "./initial:/var/lib/initial:ro"
     ports:

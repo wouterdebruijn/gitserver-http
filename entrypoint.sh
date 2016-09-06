@@ -13,17 +13,22 @@
 #             into bare repositories
 # 
 
-set -ex
+set -o errexit
+set -o xtrace
+set -o verbose
 
 readonly GIT_PROJECT_ROOT="/var/lib/git"
 readonly GIT_INITIAL_ROOT="/var/lib/initial"
+readonly FCGIPROGRAM=/usr/bin/fcgiwrap
+readonly USERID=nginx
+readonly SOCKUSERID=$USERID
+readonly FCGISOCKET=/var/run/git-http-backend.sock
 
 
 main () {
   while [ $# != "0" ]; do
     case $1 in
-      -start)   configure_nginx
-                initialize_services &
+      -start)   initialize_services &
                 ;;
       
       -init)    clean_git_root
@@ -32,26 +37,17 @@ main () {
     esac
     shift
   done
-
-  tail_logs
 }
 
 clean_git_root () {
   rm -rf $GIT_PROJECT_ROOT/* 
 }
 
-configure_nginx () {
-  mkdir -p /etc/gitweb
-  cp /etc/nginx/sites-available/git-http /etc/nginx/sites-enabled/
-  cp /etc/gitweb.conf /etc/gitweb/
-}
-
-
 initialize_services () {
-  echo "FCGI_GROUP=www-data" > /etc/default/fcgiwrap 
-  service fcgiwrap start
-  service nginx start
-  echo "Started!"
+  echo $FCGISOCKET $FCGIPROGRAM $USERID
+  nginx -g "daemon off;"
+  
+  /usr/bin/spawn-fcgi -n -s $FCGISOCKET -f 10 -u $USERID -U $USERID -g $USERID -- $FCGIPROGRAM 
 }
 
 
@@ -87,13 +83,5 @@ init_and_commit () {
 }
 
 
-tail_logs () {
-  echo "'tail'ing logs"
-  sleep 3
-  tail -f /var/log/nginx/error.log /var/log/nginx/access.log
-}
-
-
 main "$@"
-
 

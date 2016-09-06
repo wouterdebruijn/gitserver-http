@@ -1,15 +1,17 @@
 FROM nginx:1.10.1-alpine
 MAINTAINER Ciro S. Costa <ciro.costa@liferay.com>
 
-
 RUN set -x && \
   apk --update upgrade                                  &&  \
-  apk add git bash fcgiwrap spawn-fcgi                  &&  \
+  apk add git bash fcgiwrap spawn-fcgi git-gitweb       &&  \
+
+  adduser git -h /var/lib/git -D                        &&  \
+  adduser nginx git                                     &&  \
 
   git config --system http.receivepack true             &&  \
   git config --system http.uploadpack true              &&  \
-  git config --global user.email "gitserver@git.com"    &&  \
-  git config --global user.name "Git Server"
+  git config --system user.email "gitserver@git.com"    &&  \
+  git config --system user.name "Git Server"A
 
 
 ADD ./etc /etc

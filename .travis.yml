@@ -8,7 +8,7 @@ env:
   - DOCKER_OPTS="-H tcp://0.0.0.0:2375"
 
 before_install:
-  - sudo ./.travis/setup.sh
+  - ./.travis/setup.sh
 
 install:
   - make image

@@ -10,13 +10,14 @@ RUN set -x && \
   git config --system http.receivepack true             &&  \
   git config --system http.uploadpack true              &&  \
   git config --system user.email "gitserver@git.com"    &&  \
-  git config --system user.name "Git Server"A
+  git config --system user.name "Git Server"            &&  \
+
+  ln -sf /dev/stdout /var/log/nginx/access.log          &&  \
+  ln -sf /dev/stderr /var/log/nginx/error.log
 
 
 ADD ./etc /etc
 ADD ./entrypoint.sh /usr/local/bin/entrypoint
 
-
-EXPOSE 80 443
 ENTRYPOINT [ "entrypoint" ]
 CMD [ "-start" ]

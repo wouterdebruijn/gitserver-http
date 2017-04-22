@@ -2,8 +2,6 @@
 
 > A git server with Nginx as the HTTP frontend and fast cgi wrapper for running the git http backend
 
-![gitweb](https://github.com/cirocosta/gitserver-http/raw/master/assets/gitweb.png)
-
 
 ## Usage
 

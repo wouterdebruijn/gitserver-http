@@ -51,7 +51,7 @@ and then executing
     -d  \                                 # deamonize
     -v `pwd`/initial:/var/lib/initial \   # mount the initial volume
     -p "8080:80" \                        # expose the port 
-    cirocosta/gitserver-http -start -init # start git server and init repositories
+    cirocosta/gitserver-http              # start git server and init repositories
   ```
 
 will allow you to skip the `git init --bare` step and start with the repositories pre-"installed" there:

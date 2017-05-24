@@ -14,7 +14,6 @@
 # 
 
 set -o errexit
-set -o xtrace
 
 readonly GIT_PROJECT_ROOT="/var/lib/git"
 readonly GIT_INITIAL_ROOT="/var/lib/initial"
@@ -30,22 +29,8 @@ readonly FCGISOCKET="/var/run/fcgiwrap.socket"
 main() {
   mkdir -p $GIT_PROJECT_ROOT
 
-  while [ $# != "0" ]; do
-    case $1 in
-      -start) initialize_services ;;
-
-      -init)
-        clean_git_root
-        initialize_initial_repositories
-        ;;
-    esac
-    shift
-  done
-
-}
-
-clean_git_root() {
-  rm -rf $GIT_PROJECT_ROOT/*
+  initialize_initial_repositories
+  initialize_services
 }
 
 initialize_services() {

@@ -68,12 +68,10 @@ init_and_commit() {
     rm -rf ./.git
   fi
 
-  git init
-  git add --all .
-  git commit -m "first commit"
-
-  ls $GIT_PROJECT_ROOT
-  git clone --bare $tmp_dir $GIT_PROJECT_ROOT/${dir}.git
+  git init &>/dev/null
+  git add --all . &>/dev/null
+  git commit -m "first commit" &>/dev/null
+  git clone --bare $tmp_dir $GIT_PROJECT_ROOT/${dir}.git &>/dev/null
 
   popd >/dev/null
 }

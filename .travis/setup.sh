@@ -20,7 +20,7 @@ update_docker() {
   sudo touch /etc/default/docker
   echo 'DOCKER_OPTS="-H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375"' | sudo tee /etc/default/docker
   sudo apt-get update -y
-  sudo apt-get install --only-upgrade docker-engine -y
+  sudo apt-get install --only-upgrade docker-ce -y
   while ! docker info; do sleep 1; done
   docker swarm init
 }

@@ -26,18 +26,17 @@ and then, just clone it somewhere else:
 
   ```sh
   cd /tmp
-  git clone http://localhost/repos/myrepo.git
+  git clone http://localhost:8080/myrepo.git
   cd myrepo 
   ```
 
 
 ### Pre-Initialization
 
-Git servers work with bare repositories. This image provides the utility of initializing some pre-configured repositories in advance. Just add them to `/var/lib/git` and then run the container with `-init`. For instance, having the tree:
+Git servers work with bare repositories. This image provides the utility of initializing some pre-configured repositories in advance. Just add them to `/var/lib/initial` and then run the container. For instance, having the tree:
 
   ```
   .
-  └── repositories
   └── initial
       └── initial
           └── repo1
@@ -57,7 +56,7 @@ and then executing
 will allow you to skip the `git init --bare` step and start with the repositories pre-"installed" there:
 
   ```sh
-  git clone http://localhost/initial/repo1.git
+  git clone http://localhost/repo1.git
   cd repo1 && ls
   # file.txt
   ```
@@ -76,7 +75,7 @@ This will create a git server http service on `:80`. Now you can clone the sampl
 
 
   ```sh
-  git clone http://localhost/initial/repo1.git
+  git clone http://localhost:8080/repo1.git
   ```
 
 

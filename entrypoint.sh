@@ -75,9 +75,9 @@ init_and_commit() {
   fi
 
   git init &>/dev/null
-  git add --all . &>/dev/null
-  git commit -m "first commit" &>/dev/null
-  git clone --bare $tmp_dir $GIT_PROJECT_ROOT/${dir}.git &>/dev/null
+  git add --all .
+  git commit -m "first commit"
+  git clone --bare $tmp_dir $GIT_PROJECT_ROOT/${dir}.git
 
   popd >/dev/null
 }

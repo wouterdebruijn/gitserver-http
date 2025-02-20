@@ -11,7 +11,6 @@
 #
 #   -init     turns directories under `/var/lib/initial`
 #             into bare repositories at `/var/lib/git`
-# 
 
 set -o errexit
 

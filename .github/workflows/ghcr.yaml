@@ -42,7 +42,6 @@ jobs:
       uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991
       with:
         context: .
-        file: ./docker/Dockerfile
         push: true
         platforms: linux/amd64,linux/arm64
         tags: ${{ steps.meta.outputs.tags }}

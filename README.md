@@ -1,4 +1,4 @@
-# gitserver-http [![Build Status](https://travis-ci.org/cirocosta/gitserver-http.svg?branch=master)](https://travis-ci.org/cirocosta/gitserver-http)
+# gitserver-http
 
 > A git server with Nginx as the HTTP frontend and fast cgi wrapper for running the git http backend
 
